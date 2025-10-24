@@ -114,6 +114,11 @@ export const CDN_CONFIGS: Record<'MONACO_EDITOR' | 'PYODIDE', CDNResource> = {
     name: 'pyodide',
     cdns: [
       {
+        name: 'github-raw',
+        baseUrl: 'https://raw.githubusercontent.com/anzchy/pylaboratory/master/docs/assets/pyodide',
+        priority: 0
+      },
+      {
         name: 'unpkg-zhimg',
         baseUrl: 'https://unpkg.zhimg.com/pyodide@0.27.0/dist',
         priority: 1

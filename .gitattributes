@@ -1,0 +1,4 @@
+# Binary files
+docs/assets/pyodide/*.wasm binary
+docs/assets/pyodide/*.wasm.js binary
+*.wasm binary
