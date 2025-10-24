@@ -120,17 +120,42 @@ Parameters:
 - `timeout`: Execution timeout in milliseconds (default: 5000)
 - `height`: Editor height in pixels (default: 320)
 
-## CDN Configuration
+## CDN Configuration & Offline Support
 
 The platform uses multiple CDN mirrors for reliability:
 
-1. **unpkg.zhimg.com** - 知乎镜像 (priority 1)
-2. **npm.elemecdn.com** - 饿了么CDN (priority 2)
-3. **unpkg.com** - 原版unpkg (priority 3)
-4. **jsd.onmicrosoft.cn** - jsdelivr中国镜像 (priority 4)
-5. **cdn.jsdelivr.net** - jsdelivr国际 (priority 5)
+**CDN Priority (Pyodide v0.27.0):**
+1. **Local/GitHub** - Repository-hosted Pyodide files (priority 0)
+2. **unpkg.zhimg.com** - 知乎镜像 (priority 1)
+3. **npm.elemecdn.com** - 饿了么CDN (priority 2)
+4. **unpkg.com** - 原版unpkg (priority 3)
+5. **jsd.onmicrosoft.cn** - jsdelivr中国镜像 (priority 4)
+6. **cdn.jsdelivr.net** - jsdelivr国际 (priority 5)
 
 The system automatically tries CDNs in order until one succeeds.
+
+### Offline Setup (Optional)
+
+To enable offline Pyodide support, download the distribution files:
+
+```bash
+bash scripts/download-pyodide.sh
+```
+
+This downloads Pyodide v0.27.0 files to `docs/assets/pyodide/`. Once downloaded:
+- The site works without internet connection
+- Faster load times for repeated visits
+- No CDN dependency issues
+
+**File Size:** ~100MB (mainly for `pyodide.asm.wasm`)
+
+**Files Downloaded:**
+- `pyodide.js` - Main library
+- `pyodide.asm.js` - Assembly JavaScript
+- `pyodide.asm.wasm` - WebAssembly module (largest file)
+- `pyodide-worker.js` - Web worker support
+- `pyodide_py.zip` - Python standard library
+- `packages.json` - Package metadata
 
 ## Development
 
