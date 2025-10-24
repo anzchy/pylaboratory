@@ -1,0 +1,4 @@
+mkdocs==1.5.3
+mkdocs-material==9.5.16
+pymdown-extensions==10.11
+mkdocs-macros-plugin==1.4.0

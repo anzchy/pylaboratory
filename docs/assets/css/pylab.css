@@ -1,0 +1,151 @@
+.pylab-playground {
+  border: 1px solid var(--md-sys-color-outline-variant, #e2e8f0);
+  border-radius: 0.75rem;
+  background: var(--md-sys-color-surface, #ffffff);
+  margin: 1.5rem 0;
+  overflow: hidden;
+  box-shadow: 0 8px 24px rgba(15, 23, 42, 0.08);
+  transition: box-shadow 0.2s ease, transform 0.2s ease;
+}
+
+.pylab-playground:hover {
+  box-shadow: 0 12px 32px rgba(15, 23, 42, 0.12);
+  transform: translateY(-2px);
+}
+
+.pylab-toolbar {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.75rem 1rem;
+  background: var(--md-sys-color-surface-container, #f8fafc);
+  border-bottom: 1px solid var(--md-sys-color-outline-variant, #e2e8f0);
+}
+
+.pylab-btn {
+  border: none;
+  border-radius: 0.5rem;
+  padding: 0.4rem 0.85rem;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s ease, transform 0.1s ease;
+  color: #0f172a;
+  background: #e2e8f0;
+}
+
+.pylab-btn:hover {
+  background: #cbd5f5;
+}
+
+.pylab-btn:active {
+  transform: translateY(1px);
+}
+
+.pylab-btn.pylab-btn-run {
+  background: linear-gradient(135deg, #6366f1, #8b5cf6);
+  color: white;
+}
+
+.pylab-btn.pylab-btn-run:hover {
+  background: linear-gradient(135deg, #4f46e5, #7c3aed);
+}
+
+.pylab-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.pylab-status {
+  margin-left: auto;
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: #475569;
+}
+
+.pylab-status-running {
+  color: #2563eb;
+}
+
+.pylab-status-success {
+  color: #16a34a;
+}
+
+.pylab-status-error,
+.pylab-status-timeout {
+  color: #dc2626;
+}
+
+.pylab-output {
+  border-top: 1px solid var(--md-sys-color-outline-variant, #e2e8f0);
+  background: #0f172a;
+  color: #e2e8f0;
+}
+
+.pylab-output-title {
+  padding: 0.6rem 1rem;
+  font-size: 0.85rem;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  opacity: 0.7;
+}
+
+.pylab-output-body {
+  margin: 0;
+  padding: 1rem;
+  font-family: 'Fira Code', 'JetBrains Mono', Menlo, Consolas, monospace;
+  font-size: 0.9rem;
+  max-height: 240px;
+  overflow: auto;
+  white-space: pre-wrap;
+}
+
+.pylab-demo-playground {
+  border: 1px dashed #cbd5f5;
+  border-radius: 0.75rem;
+  padding: 1rem;
+  background: rgba(99, 102, 241, 0.04);
+}
+
+.pylab-demo-editor {
+  width: 100%;
+  min-height: 160px;
+  border: 1px solid #e2e8f0;
+  border-radius: 0.5rem;
+  font-family: 'Fira Code', 'JetBrains Mono', Menlo, Consolas, monospace;
+  padding: 0.75rem;
+  background: white;
+}
+
+.pylab-demo-run {
+  border: none;
+  border-radius: 0.5rem;
+  padding: 0.5rem 1rem;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s ease, transform 0.1s ease;
+  color: white;
+  background: linear-gradient(135deg, #38bdf8, #6366f1);
+  margin-top: 0.75rem;
+}
+
+.pylab-demo-run:hover {
+  background: linear-gradient(135deg, #0ea5e9, #4f46e5);
+}
+
+.pylab-demo-status {
+  margin-top: 0.5rem;
+  font-size: 0.85rem;
+  color: #475569;
+}
+
+.pylab-demo-output {
+  margin-top: 0.75rem;
+  padding: 0.75rem;
+  background: #0f172a;
+  color: #e2e8f0;
+  border-radius: 0.5rem;
+  min-height: 80px;
+  overflow: auto;
+}

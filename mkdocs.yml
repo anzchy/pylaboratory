@@ -1,0 +1,17 @@
+site_name: PyLab
+site_url: https://example.com
+nav:
+  - Home: index.md
+  - Tutorials:
+      - Hello World: tutorial/01_intro.md
+      - Snippet Demo: tutorial/02_snippet_demo.md
+theme:
+  name: material
+  language: zh
+plugins:
+  - search
+  - macros:
+      module_name: macros/pylab_macros
+extra_javascript:
+  - assets/js/pylab-editor.js
+  - assets/js/init.js
