@@ -48,6 +48,9 @@ jobs:
         working-directory: ./pylab
         run: npm run build
 
+      - name: Download Pyodide distribution
+        run: bash scripts/download-pyodide.sh
+
       - name: Build MkDocs site
         run: mkdocs build --clean
 
