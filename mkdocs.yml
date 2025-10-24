@@ -1,5 +1,5 @@
 site_name: PyLab
-site_url: https://example.com
+site_url: https://anzchy.github.io/pylaboratory
 nav:
   - Home: index.md
   - Tutorials:
