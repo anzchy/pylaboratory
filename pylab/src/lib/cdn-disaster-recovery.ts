@@ -15,6 +15,28 @@ export interface CDNResource {
   healthCheck?: (url: string) => Promise<boolean>
 }
 
+function resolveLocalPyodideBase(): string {
+  if (typeof window === 'undefined' || typeof document === 'undefined') {
+    return '/assets/pyodide'
+  }
+
+  const scriptEl = document.querySelector<HTMLScriptElement>('script[src*="pylab-editor"]')
+  if (scriptEl) {
+    try {
+      const scriptUrl = new URL(scriptEl.src, window.location.href)
+      const match = scriptUrl.pathname.match(/^(.*)\/assets\/js\/[^/]+$/)
+      const basePath = match?.[1] ?? ''
+      const normalizedBase = basePath.endsWith('/') ? basePath : `${basePath}/`
+      const absoluteBase = `${scriptUrl.origin}${normalizedBase}`
+      return new URL('assets/pyodide', absoluteBase).href.replace(/\/$/, '')
+    } catch (error) {
+      console.warn('[CDN] Failed to resolve local Pyodide base URL', error)
+    }
+  }
+
+  return `${window.location.origin}/assets/pyodide`
+}
+
 class CDNDisasterRecovery {
   private healthCache = new Map<string, { healthy: boolean; lastCheck: number }>()
   private readonly cacheTimeout = 5 * 60 * 1000
@@ -115,7 +137,7 @@ export const CDN_CONFIGS: Record<'MONACO_EDITOR' | 'PYODIDE', CDNResource> = {
     cdns: [
       {
         name: 'local-assets',
-        baseUrl: '/assets/pyodide',
+        baseUrl: resolveLocalPyodideBase(),
         priority: 0
       },
       {
