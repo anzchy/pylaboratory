@@ -114,34 +114,44 @@ export const CDN_CONFIGS: Record<'MONACO_EDITOR' | 'PYODIDE', CDNResource> = {
     name: 'pyodide',
     cdns: [
       {
-        name: 'github-raw',
-        baseUrl: 'https://raw.githubusercontent.com/anzchy/pylaboratory/master/docs/assets/pyodide',
+        name: 'local-assets',
+        baseUrl: '/assets/pyodide',
         priority: 0
       },
       {
-        name: 'unpkg-zhimg',
-        baseUrl: 'https://unpkg.zhimg.com/pyodide@0.27.0/dist',
+        name: 'github-raw-main',
+        baseUrl: 'https://raw.githubusercontent.com/anzchy/pylaboratory/main/docs/assets/pyodide',
         priority: 1
       },
       {
-        name: 'elemecdn',
-        baseUrl: 'https://npm.elemecdn.com/pyodide@0.27.0/dist',
+        name: 'github-raw-master',
+        baseUrl: 'https://raw.githubusercontent.com/anzchy/pylaboratory/master/docs/assets/pyodide',
         priority: 2
       },
       {
-        name: 'unpkg',
-        baseUrl: 'https://unpkg.com/pyodide@0.27.0/dist',
+        name: 'unpkg-zhimg',
+        baseUrl: 'https://unpkg.zhimg.com/pyodide@0.27.0',
         priority: 3
       },
       {
-        name: 'jsdelivr-china-jsd',
-        baseUrl: 'https://jsd.onmicrosoft.cn/npm/pyodide@0.27.0/dist',
+        name: 'elemecdn',
+        baseUrl: 'https://npm.elemecdn.com/pyodide@0.27.0',
         priority: 4
       },
       {
-        name: 'jsdelivr',
-        baseUrl: 'https://cdn.jsdelivr.net/npm/pyodide@0.27.0/dist',
+        name: 'unpkg',
+        baseUrl: 'https://unpkg.com/pyodide@0.27.0',
         priority: 5
+      },
+      {
+        name: 'jsdelivr-china-jsd',
+        baseUrl: 'https://jsd.onmicrosoft.cn/npm/pyodide@0.27.0',
+        priority: 6
+      },
+      {
+        name: 'jsdelivr',
+        baseUrl: 'https://cdn.jsdelivr.net/npm/pyodide@0.27.0',
+        priority: 7
       }
     ]
   }
@@ -152,7 +162,7 @@ export function getMonacoEditorCDN(): Promise<string> {
 }
 
 export function getPyodideCDN(): Promise<string> {
-  return cdnManager.getHealthyCDN(CDN_CONFIGS.PYODIDE)
+  return cdnManager.getHealthyCDN(CDN_CONFIGS.PYODIDE, '/pyodide.js')
 }
 
 export function preCheckAllCDNs(): Promise<void> {
