@@ -87,25 +87,23 @@ class PyodideManager {
   }
 
   private async loadPyodide(): Promise<any> {
-    // 加载 Pyodide script
-    if (!(globalThis as any).loadPyodide) {
-      const healthyCDN = await getPyodideCDN()
-      const script = document.createElement('script')
-      script.src = `${healthyCDN}/pyodide.js`
-      script.async = true
-
-      await new Promise((resolve, reject) => {
-        script.onload = resolve
-        script.onerror = reject
-        document.head.appendChild(script)
-      })
-    }
-
     try {
       const healthyCDN = await getPyodideCDN()
       console.log(`[PyLab] Loading Pyodide from: ${healthyCDN}`)
 
-      const pyodideInstance = await (globalThis as any).loadPyodide({
+      // 通过动态 import 加载 Pyodide ESM 模块，避免依赖全局变量
+      const pyodideModule = await import(
+        /* @vite-ignore */ `${healthyCDN}/pyodide.mjs`
+      )
+
+      const loadPyodideFn =
+        (pyodideModule as any).loadPyodide ?? (pyodideModule as any).default
+
+      if (typeof loadPyodideFn !== 'function') {
+        throw new Error('Pyodide module did not export loadPyodide')
+      }
+
+      const pyodideInstance = await loadPyodideFn({
         indexURL: healthyCDN,
         fullStdLib: false
       })

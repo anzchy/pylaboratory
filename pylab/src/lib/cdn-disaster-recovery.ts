@@ -184,7 +184,7 @@ export function getMonacoEditorCDN(): Promise<string> {
 }
 
 export function getPyodideCDN(): Promise<string> {
-  return cdnManager.getHealthyCDN(CDN_CONFIGS.PYODIDE, '/pyodide.js')
+  return cdnManager.getHealthyCDN(CDN_CONFIGS.PYODIDE, '/pyodide.mjs')
 }
 
 export function preCheckAllCDNs(): Promise<void> {
