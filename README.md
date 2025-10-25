@@ -81,10 +81,10 @@ Visit http://127.0.0.1:8000
 
 ### Creating Interactive Snippets
 
-In your Markdown files, use Python code blocks with the `pylab` language:
+Use fenced Python blocks with metadata so the macro can upgrade them into playgrounds:
 
 ````markdown
-```pylab
+```python packages=["numpy"] timeout=8000
 import numpy as np
 
 def fibonacci(n):
@@ -97,28 +97,32 @@ print(fibonacci(10))
 ```
 ````
 
-The macro plugin automatically transforms these into interactive playgrounds with:
-- Editable code area
-- Run button to execute code
-- Reset button to restore original code
-- Save button (localStorage - to be implemented)
-- Status display
-- Output console
+The macro plugin automatically renders:
+- An editable code pane with Run/Reset controls
+- Execution status and console output
+- Automatic package loading based on the `packages=[...]` metadata
 
-### Custom Configuration
+#### Multiple Modules Example
 
-You can customize snippet behavior:
+When a snippet needs more than one package, list them all in the metadata:
 
 ````markdown
-```pylab packages=numpy,pandas timeout=10000 height=400
-# Your code here
+```python packages=["pandas", "numpy"] timeout=8000 height=420
+import pandas as pd
+import numpy as np
+
+df = pd.DataFrame(np.random.randn(5, 3), columns=["A", "B", "C"])
+print(df.describe())
 ```
 ````
 
 Parameters:
-- `packages`: Comma-separated list of packages to preload
-- `timeout`: Execution timeout in milliseconds (default: 5000)
-- `height`: Editor height in pixels (default: 320)
+- `packages`: JSON-style list of Pyodide packages to preload (empty list if none).
+- `timeout`: Execution timeout in milliseconds (default `5000`).
+- `height`: Editor height in pixels (default `320`).
+
+> **Tip:** After adding or changing packages in Markdown, run\
+> `bash scripts/download-pyodide.sh` to refresh the offline wheels before `mkdocs serve` or deployment.
 
 ## CDN Configuration & Offline Support
 

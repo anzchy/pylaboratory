@@ -10,7 +10,19 @@ FENCED_BLOCK_PATTERN = re.compile(
     re.DOTALL,
 )
 
-META_PATTERN = re.compile(r"(\w+)=([\w.,\-\[\]\"']+)")
+META_PATTERN = re.compile(
+    r"""
+    (?P<key>\w+)
+    =
+    (?P<value>
+        "(?:[^"\\]|\\.)*" |
+        '(?:[^'\\]|\\.)*' |
+        \[[^\]]*\] |
+        [^\s]+
+    )
+    """,
+    re.VERBOSE,
+)
 
 
 class SnippetConfig:
@@ -46,7 +58,8 @@ def _parse_meta(meta: str) -> Dict[str, str]:
     """Parse key=value pairs from the fenced block meta section."""
     results: Dict[str, str] = {}
     for match in META_PATTERN.finditer(meta):
-        key, raw_value = match.groups()
+        key = match.group("key")
+        raw_value = match.group("value")
         results[key] = raw_value
     return results
 
@@ -60,6 +73,12 @@ def _parse_packages(raw_value: Optional[str]) -> List[str]:
             return json.loads(trimmed)
         except json.JSONDecodeError:
             pass
+    if (trimmed.startswith('"') and trimmed.endswith('"')) or (
+        trimmed.startswith("'") and trimmed.endswith("'")
+    ):
+        value = trimmed[1:-1].strip()
+        return [value] if value else []
+
     return [p.strip() for p in trimmed.split(',') if p.strip()]
 
 
@@ -180,4 +199,3 @@ def on_pre_page_macros(env):
 
     page_path = page.file.src_path if hasattr(page, 'file') else "page"
     env.markdown = transform_fenced_snippets(markdown, page_path)
-

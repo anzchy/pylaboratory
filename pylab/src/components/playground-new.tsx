@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react'
 import ReactDOM from 'react-dom/client'
-import { getPyodideCDN } from '../lib/cdn-disaster-recovery'
+import { getPyodideCDN, getPyodidePackageFallbacks } from '../lib/cdn-disaster-recovery'
 
 interface PlaygroundProps {
   defaultCode: string
@@ -51,6 +51,7 @@ class PyodideManager {
   private isLoading = false
   private loadPromise: Promise<any> | null = null
   private subscribers: Set<(pyodide: any) => void> = new Set()
+  private fetchPatched = false
 
   private constructor() {}
 
@@ -103,6 +104,8 @@ class PyodideManager {
         throw new Error('Pyodide module did not export loadPyodide')
       }
 
+      this.ensurePyodideFetchFallbacks(healthyCDN)
+
       const pyodideInstance = await loadPyodideFn({
         indexURL: healthyCDN,
         fullStdLib: false
@@ -114,6 +117,63 @@ class PyodideManager {
       console.error('[PyLab] Pyodide initialization failed:', error)
       throw error
     }
+  }
+
+  private ensurePyodideFetchFallbacks(primaryBase: string): void {
+    if (this.fetchPatched || typeof window === 'undefined' || typeof fetch === 'undefined') {
+      return
+    }
+
+    const fallbackBases = getPyodidePackageFallbacks(primaryBase)
+    const originalFetch = window.fetch.bind(window)
+
+    const escapeRegex = (input: string): string =>
+      input.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
+
+    const primaryRegex = new RegExp(`^${escapeRegex(fallbackBases[0])}`)
+
+    window.fetch = async (input: RequestInfo | URL, init?: RequestInit): Promise<Response> => {
+      const request = input instanceof Request ? input : new Request(input, init)
+      const url = request.url
+
+      if (!primaryRegex.test(url)) {
+        return originalFetch(request)
+      }
+
+      const relativePath = url.substring(fallbackBases[0].length)
+      let lastError: unknown = null
+      let lastResponse: Response | null = null
+
+      for (const base of fallbackBases) {
+        const candidateUrl = `${base}${relativePath}`
+        const candidateRequest = new Request(candidateUrl, request)
+        try {
+          const response = await originalFetch(candidateRequest)
+          if (response.ok) {
+            if (base !== fallbackBases[0]) {
+              console.info(`[PyLab] Package fallback hit: ${candidateUrl}`)
+            }
+            return response
+          }
+          lastResponse = response
+        } catch (error) {
+          console.warn(`[PyLab] Package fetch failed for ${candidateUrl}`, error)
+          lastError = error
+        }
+      }
+
+      if (lastResponse) {
+        return lastResponse
+      }
+
+      if (lastError) {
+        throw lastError
+      }
+
+      return originalFetch(request)
+    }
+
+    this.fetchPatched = true
   }
 
   subscribe(callback: (pyodide: any) => void): () => void {

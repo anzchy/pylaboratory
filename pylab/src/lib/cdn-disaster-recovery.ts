@@ -187,6 +187,38 @@ export function getPyodideCDN(): Promise<string> {
   return cdnManager.getHealthyCDN(CDN_CONFIGS.PYODIDE, '/pyodide.mjs')
 }
 
+const PYODIDE_PACKAGE_FALLBACK_BASES = [
+  'https://cdn.jsdelivr.net/pyodide/v0.27.0/full',
+  'https://pyodide-cdn2.iodide.io/v0.27.0/full'
+] as const
+
+function normalizeBaseUrl(url: string): string {
+  return url.endsWith('/') ? url.slice(0, -1) : url
+}
+
+export function getPyodidePackageFallbacks(primaryBase: string): string[] {
+  const seen = new Set<string>()
+  const normalizedPrimary = normalizeBaseUrl(primaryBase)
+
+  const add = (value: string | undefined) => {
+    if (!value) return
+    const normalized = normalizeBaseUrl(value)
+    if (!seen.has(normalized)) {
+      seen.add(normalized)
+    }
+  }
+
+  add(normalizedPrimary)
+  add(resolveLocalPyodideBase())
+
+  // include other configured CDNs for good measure
+  CDN_CONFIGS.PYODIDE.cdns.forEach((cdn) => add(cdn.baseUrl))
+
+  PYODIDE_PACKAGE_FALLBACK_BASES.forEach((cdn) => add(cdn))
+
+  return Array.from(seen)
+}
+
 export function preCheckAllCDNs(): Promise<void> {
   return Promise.all([
     cdnManager.getHealthyCDN(CDN_CONFIGS.MONACO_EDITOR, '/vs/loader.min.js'),
