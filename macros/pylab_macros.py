@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import html
 import json
 import re
 from pathlib import Path
@@ -125,9 +126,11 @@ def define_env(env):
                     height=height,
                 )
 
+                escaped_payload = html.escape(config.to_json(), quote=True)
+
                 placeholder = (
                     f'<div class="pylab-snippet" '
-                    f"data-snippet='{config.to_json()}'></div>"
+                    f'data-snippet="{escaped_payload}"></div>'
                 )
 
                 snippets.append(placeholder)
@@ -182,9 +185,11 @@ def on_pre_page_macros(env):
                     height=height,
                 )
 
+                escaped_payload = html.escape(config.to_json(), quote=True)
+
                 placeholder = (
                     f'<div class="pylab-snippet" '
-                    f"data-snippet='{config.to_json()}'></div>"
+                    f'data-snippet="{escaped_payload}"></div>'
                 )
 
                 snippets.append(placeholder)

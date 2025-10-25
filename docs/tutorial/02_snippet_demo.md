@@ -54,4 +54,16 @@ print(hello("Jack"))
 ```
 
 
+if语句测试：
+
+```python packages=[""] timeout=8000
+def classify_grade(grade=60):
+    if grade >=85: return "A"
+    elif grade >=60: return "B"
+    else: return "C"
+
+print(classify_grade(grade=100))
+print(classify_grade(grade=80))
+print(classify_grade(grade=50))
+```
 
