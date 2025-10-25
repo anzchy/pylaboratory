@@ -20,3 +20,38 @@ def hello(name):
 
 print(hello("Jack"))
 ```
+
+pandas 模块测试：
+```python packages=["pandas", "numpy"] timeout=8000
+import pandas as pd
+import numpy as np
+
+def generate_sim_numbers(rows=100, cols=5, random_seed=42):
+    """
+    生成模拟数字数据的DataFrame，并打印head和shape
+    
+    参数:
+        rows: 数据行数（默认100）
+        cols: 数据列数（默认5）
+        random_seed: 随机种子（保证结果可复现，默认42）
+    """
+    # 设置随机种子，确保结果可复现
+    np.random.seed(random_seed)
+    
+    # 生成随机数字数据（这里用正态分布随机数，也可替换为整数等）
+    data = np.random.randn(rows, cols)  # 生成rows行cols列的正态分布随机数
+    
+    # 构造DataFrame，列名用col1, col2...表示
+    df = pd.DataFrame(data, columns=[f'col{i+1}' for i in range(cols)])
+    
+    # 打印前5行数据
+    print("数据前5行：")
+    print(df.head())
+    print("\n数据形状（行数, 列数）：")
+    print(df.shape)
+    
+    return df
+
+# 调用函数示例（生成50行3列数据）
+sim_df = generate_sim_numbers(rows=50, cols=3)
+```

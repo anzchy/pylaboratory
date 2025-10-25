@@ -24,11 +24,6 @@ core_files=(
   "python_stdlib.zip"
 )
 
-# Subset of scientific packages used in our demos
-package_files=(
-  "numpy-2.0.2-cp312-cp312-pyodide_2024_0_wasm32.whl"
-)
-
 echo "📥 Downloading Pyodide v0.27.0 runtime assets..."
 echo ""
 
@@ -49,11 +44,17 @@ for file in "${core_files[@]}"; do
 done
 
 echo ""
-echo "📦 Downloading required packages..."
+echo "📦 Resolving packages referenced in documentation..."
 
-for file in "${package_files[@]}"; do
-  download_file "$file"
-done
+mapfile -t package_files < <(python3 "$(dirname "$0")/collect_pyodide_packages.py")
+
+if [ "${#package_files[@]}" -eq 0 ]; then
+  echo "ℹ️  No additional packages detected in Markdown snippets."
+else
+  for file in "${package_files[@]}"; do
+    download_file "$file"
+  done
+fi
 
 echo ""
 echo "✨ Pyodide assets are ready:"

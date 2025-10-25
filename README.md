@@ -136,26 +136,24 @@ The system automatically tries CDNs in order until one succeeds.
 
 ### Offline Setup (Optional)
 
-To enable offline Pyodide support, download the distribution files:
+To enable offline Pyodide support (runtime + any packages referenced in Markdown demos), run:
 
 ```bash
 bash scripts/download-pyodide.sh
 ```
 
-This downloads Pyodide v0.27.0 files to `docs/assets/pyodide/`. Once downloaded:
+What the script does:
+- Syncs the Pyodide 0.27.0 runtime (`pyodide.mjs`, `pyodide.asm.wasm`, stdlib, type defs, etc.) into `docs/assets/pyodide/`.
+- Parses all fenced Python snippets in `docs/**/*.md`, looks at the `packages=[...]` metadata, and downloads the matching wheels (plus dependencies) listed in `pyodide-lock.json`.
+
+Once downloaded:
 - The site works without internet connection
 - Faster load times for repeated visits
 - No CDN dependency issues
 
 **File Size:** ~100MB (mainly for `pyodide.asm.wasm`)
 
-**Files Downloaded:**
-- `pyodide.js` - Main library
-- `pyodide.asm.js` - Assembly JavaScript
-- `pyodide.asm.wasm` - WebAssembly module (largest file)
-- `pyodide-worker.js` - Web worker support
-- `pyodide_py.zip` - Python standard library
-- `packages.json` - Package metadata
+**When adding new packages to docs:** update the Markdown code block (e.g. `packages=["pandas"]`), then re-run `bash scripts/download-pyodide.sh` so the required wheels are bundled before `mkdocs serve` or deployment.
 
 ## Development
 
