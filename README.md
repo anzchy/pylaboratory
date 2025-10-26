@@ -124,6 +124,14 @@ Parameters:
 > **Tip:** After adding or changing packages in Markdown, run\
 > `bash scripts/download-pyodide.sh` to refresh the offline wheels before `mkdocs serve` or deployment.
 
+#### 如何更新 tutorials
+
+ （1）**控制 TOC 的文件是：`mkdocs.yml`
+
+ 在第 3-7 行的 nav: 部分，你需要手动添加新的 markdown 文件
+
+
+
 ## CDN Configuration & Offline Support
 
 The platform uses multiple CDN mirrors for reliability:

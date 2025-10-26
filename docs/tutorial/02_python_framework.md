@@ -59,7 +59,7 @@ Each programming language has a set of primitive constructs, a syntax, a static 
 
 一些例子：
 
-```python
+```python packages=[""] timeout=8000
 print(f"2 + 3 = {2 + 3}")
 print(f"5 - 4 = {5 - 4}")
 print(f"2 * 3 = {2 * 3}")
@@ -86,7 +86,7 @@ print(f"8 / 2 = {8 / 2}")
 
 in 属于关系，这个是Python中比较特殊的
 
-```
+```python packages=[""] timeout=8000
 print(f"2 > 3 = {2 > 3}")
 print(f"5 != 4 = {5 != 4}")
 print(f"2 == 3 = {2 == 3}")
@@ -101,7 +101,7 @@ Python中，布尔值是True 或者False，任何逻辑表达式的结果，都�
 
 ①布尔运算操作符
 
-```python
+```python packages=[""] timeout=8000
 print('(True and Flase) Yield: ', True and False)  #注意布尔值，是True，不是true 也不是TRUE，Python中注重大小写
 ... print('(True 0r Flase) Yield: ', True or False)
 ... print('(True and True ) Yield: ', True and True)
@@ -143,7 +143,7 @@ print(type(int))
 
 if 语句，**选择性执行**
 
-```python
+```python packages=[""] timeout=8000
 import random
 r = random.randrange(1, 1000)
 
@@ -163,7 +163,7 @@ r = random.randrange(1, 1000)，就是赋值语句
 
 ① for 循环
 
-```python
+```python packages=[""] timeout=8000
 for i in range(10):
     if i % 2 != 0:
         print(i)
@@ -171,7 +171,7 @@ for i in range(10):
 
 if 语句与for 语句的嵌套执行：
 
-```python
+```python packages=[""] timeout=8000
 for n in range(2,100):   #包含2，不包含100
     if n == 2:
         print(n)
@@ -201,7 +201,7 @@ for n in range(2,100):   #包含2，不包含100
 
 被调用的函数，也可以被理解为子程序（sub-Program），主程序执行到函数调用时，就开始执行实现函数的哪些代码，然后再返回主程序。
 
-```python
+```python packages=[""] timeout=8000
 #写一个判断指定数字是否是质数的函数
 
 def is_prime(n):
@@ -230,7 +230,7 @@ Class 是 Python 面向对象编程的一个重要概念，什么时候需要 Cl
 
 譬如一个图书馆的图书管理系统，要处理成千上万本书的借入借出记录，书的属性有书名、ISBN 号、作者、入库时间等，方法有入库、借出、还书等。
 
-```python
+```python packages=[""] timeout=8000
 class Book:
     """图书类，包含图书的基本属性"""
     

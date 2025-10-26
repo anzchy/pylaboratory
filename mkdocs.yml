@@ -3,8 +3,9 @@ site_url: https://anzchy.github.io/pylaboratory
 nav:
   - Home: index.md
   - Tutorials:
-      - Hello World: tutorial/01_intro.md
-      - Snippet Demo: tutorial/02_snippet_demo.md
+      - 01-Intro: tutorial/01_intro.md
+      - 02-Python-Framework: tutorial/02_python_framework.md
+      - 03-test: tutorial/03_snippet_demo.md
 theme:
   name: material
   language: zh
