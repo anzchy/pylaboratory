@@ -189,7 +189,8 @@ MIT
 ## Acknowledgments
 
 This project was inspired by and references code from:
-- [LangShift](https://github.com/example/langshift) - Runtime logic and CDN disaster recovery
-- [docs-old](./docs-old) - UI design reference
+- [LangShift](https://github.com/anzchy/langshift) - Runtime logic and CDN disaster recovery
+- Claude Cli assisstance
+- Codex Cli assisstance
 
 These reference directories are excluded from version control.
