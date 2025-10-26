@@ -124,11 +124,145 @@ Parameters:
 > **Tip:** After adding or changing packages in Markdown, run\
 > `bash scripts/download-pyodide.sh` to refresh the offline wheels before `mkdocs serve` or deployment.
 
-#### 如何更新 tutorials
+## 如何更新 Tutorials
 
- （1）**控制 TOC 的文件是：`mkdocs.yml`
+### 1. 更新导航菜单 (TOC)
 
- 在第 3-7 行的 nav: 部分，你需要手动添加新的 markdown 文件
+**控制 TOC 的文件：`mkdocs.yml`**
+
+在第 3-7 行的 `nav:` 部分，手动添加新的 markdown 文件：
+
+```yaml
+nav:
+  - Home: index.md
+  - Tutorials:
+      - Hello World: tutorial/01_intro.md
+      - Python Framework: tutorial/02_python_framework.md
+      - Snippet Demo: tutorial/02_snippet_demo.md
+```
+
+每次添加新的 tutorial 文件，都要在 `mkdocs.yml` 的 `nav:` 部分添加对应的条目。
+
+### 2. 在 Markdown 中添加交互式代码块
+
+创建或编辑 `docs/tutorial/` 下的 `.md` 文件，使用 Python 代码块的元数据语法：
+
+```markdown
+```python height=150 timeout=8000 packages=[]
+print(f"2 + 3 = {2 + 3}")
+print(f"5 - 4 = {5 - 4}")
+print(f"2 * 3 = {2 * 3}")
+print(f"8 / 2 = {8 / 2}")
+```
+```
+
+### 3. 代码块元数据参数说明
+
+| 参数 | 说明 | 默认值 | 单位 | 是否必需 |
+|-----|------|--------|------|---------|
+| `height` | 代码编辑器窗口高度 | 320 | px (像素) | ❌ |
+| `timeout` | 代码执行超时时间 | 5000 | ms (毫秒) | ❌ |
+| `packages` | 预加载的 Python 包列表 | [] | JSON 数组 | ✅ |
+| `id` | 代码片段的唯一标识符 | 自动生成 | - | ❌ |
+
+**重要：** 至少需要一个参数（如 `packages=[]` 或 `height=320`），代码块才会转换成交互式播放器。不带参数的代码块会显示为普通代码块。
+
+### 4. 使用示例
+
+#### 小代码块（150px 高）
+```markdown
+```python height=150 packages=[]
+print("Hello World")
+```
+```
+
+#### 中等代码块（300px，加载 numpy）
+```markdown
+```python height=300 timeout=10000 packages=["numpy"]
+import numpy as np
+arr = np.array([1, 2, 3, 4, 5])
+print(f"Array: {arr}")
+print(f"Sum: {np.sum(arr)}")
+```
+```
+
+#### 大代码块（500px，加载多个包）
+```markdown
+```python height=500 timeout=15000 packages=["numpy", "pandas"]
+import numpy as np
+import pandas as pd
+
+data = {"A": [1, 2, 3], "B": [4, 5, 6]}
+df = pd.DataFrame(data)
+print(df.describe())
+```
+```
+
+### 5. 推荐的高度值
+
+| 场景 | 推荐高度 |
+|------|---------|
+| 单行简单代码 | 100-150px |
+| 2-5 行代码 | 200-300px |
+| 5-10 行代码 | 300-400px |
+| 10+ 行代码 | 400-600px |
+| 复杂函数/类定义 | 600-800px |
+
+### 6. 代码控制流程
+
+```
+编辑 .md 文件
+    ↓
+mkdocs build 运行时
+    ↓
+macros/pylab_macros.py 解析元数据
+    ↓ 提取 height、timeout、packages 等参数
+    ↓
+生成 HTML 占位符：<div class="pylab-snippet" data-snippet='{"height": 150, ...}'>
+    ↓
+部署到网站
+    ↓
+浏览器加载 init.js
+    ↓
+init.js 调用 mountPlayground() 挂载 React 组件
+    ↓
+playground-new.tsx 应用 height: ${height}px 样式
+    ↓
+编辑器显示为指定高度
+```
+
+### 7. 高度代码位置
+
+- **Markdown 宏处理器：** `macros/pylab_macros.py` 第 116、175 行
+  ```python
+  height = int(meta.get("height", 320))  # 默认 320px
+  ```
+
+- **React 组件：** `pylab/src/components/playground-new.tsx`
+  ```typescript
+  style={{ height: `${height}px`, borderBottom: '1px solid #e0e0e0' }}
+  ```
+
+### 8. 工作流程
+
+```bash
+# 1. 编辑 markdown 文件
+nano docs/tutorial/my_tutorial.md
+
+# 2. 添加到 mkdocs.yml nav 部分
+nano mkdocs.yml
+
+# 3. 本地测试
+mkdocs serve
+
+# 4. 如果加入新的 packages，下载离线文件
+bash scripts/download-pyodide.sh
+
+# 5. 提交并推送（GitHub Actions 会自动构建和部署）
+git add .
+git commit -m "docs: add new tutorial"
+git push origin master
+```
 
 
 
