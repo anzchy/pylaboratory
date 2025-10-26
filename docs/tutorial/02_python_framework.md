@@ -2,7 +2,7 @@
 
 
 
-### 1、概念与定义
+## 1、概念与定义
 
 Definition: 
 
@@ -33,7 +33,7 @@ Each programming language has a set of primitive constructs, a syntax, a static 
 
 
 
-###  1、data type
+##  2、data type
 
 
 
@@ -45,25 +45,27 @@ Each programming language has a set of primitive constructs, a syntax, a static 
 
 ①数字操作符
 
-加：+
+加：`+`
 
-减： -
+减：`-`
 
-乘: *
+乘: `*`
 
-除: /
+除: `/`
 
-取余:%
+取余: `%`
 
-幂:**
+幂: `**`
 
 一些例子：
 
 ```python packages=[""] timeout=8000
+
 print(f"2 + 3 = {2 + 3}")
 print(f"5 - 4 = {5 - 4}")
 print(f"2 * 3 = {2 * 3}")
 print(f"8 / 2 = {8 / 2}")
+
 ```
 
 > 注：这个网站中的 Python 代码可以在线运行，你可以按照自己的想法编辑代码，然后点击左上角代码框的“运行”按钮，过一会就能在代码框的下方查看运行的结果。
@@ -72,19 +74,19 @@ print(f"8 / 2 = {8 / 2}")
 
 ②逻辑操作符：数字
 
-== 判断两个值是否相当
+`==`: 判断两个值是否相当
 
-!= 判断两个值是否不当
+`!=`: 判断两个值是否不当
 
-\>大于
+`>`: 大于
 
-< 小于
+`<`:  小于
 
-\>= 大于等于
+`>=`: 大于等于
 
-<= 小于等于
+`<=`: 小于等于
 
-in 属于关系，这个是Python中比较特殊的
+`in`: 属于关系，这个在Python中比较特殊
 
 ```python packages=[""] timeout=8000
 print(f"2 > 3 = {2 > 3}")
@@ -97,34 +99,25 @@ print(f"2 in [2, 3] = {2 in [2, 3]}")
 
 #### （2）布尔值
 
-Python中，布尔值是True 或者False，任何逻辑表达式的结果，都会是其中之一
+Python中，布尔值是`True` 或者`False`，任何逻辑表达式的结果，要么是 `True`，要么是 `False`。值得注意的是，在 Python 中，这两个首字母都要大写，小写的`true` 或者 `false` 会被 Python 视为普通的 `string`。
 
 ①布尔运算操作符
 
 ```python packages=[""] timeout=8000
-print('(True and Flase) Yield: ', True and False)  #注意布尔值，是True，不是true 也不是TRUE，Python中注重大小写
-... print('(True 0r Flase) Yield: ', True or False)
-... print('(True and True ) Yield: ', True and True)
-... print('(True 0r True ) Yield: ', True or True)
-... print('(False and False ) Yield: ', False and False)
-... print('(False 0r False ) Yield: ', False or False)
-```
+print('(True and Flase) Yield: ', True and False)  
+print('(True 0r Flase) Yield: ', True or False)
+print('(True and True ) Yield: ', True and True)
+print('(True 0r True ) Yield: ', True or True)
+print('(False and False ) Yield: ', False and False)
+print('(False 0r False ) Yield: ', False or False)
 
->  (True and Flase) Yield:  False 
->
->  (True 0r Flase) Yield:  True 
->
->  (True and True ) Yield:  True 
->
->  (True 0r True ) Yield:  True 
->
->  (False and False ) Yield:  False 
->
->  (False 0r False ) Yield:  False              
+```
+            
 
 #### (3) data type 练习
 
-```
+```python packages=[""] timeout=8000
+
 print(type(abs(-7)))
 # <class 'int'>
 print(type(abs(-7.0)))
@@ -133,11 +126,12 @@ print(type(abs))
 # <class 'builtin_function_or_method'>
 print(type(int))
 <class 'type'>
+
 ```
 
 
 
-### 2、流程控制
+## 3、流程控制
 
 #### （1）if语句
 
@@ -155,11 +149,11 @@ else:
 
 其中r 是变量 
 
-r = random.randrange(1, 1000)，就是赋值语句
+`r = random.randrange(1, 1000)`，就是赋值语句
 
 
 
-#### （2）**循环执行：**
+#### （2）循环执行
 
 ① for 循环
 
@@ -187,7 +181,7 @@ for n in range(2,100):   #包含2，不包含100
 
 
 
-### 3、函数
+## 4、函数
 
 > 函数在英文中称为 function，在Python 中也常称之为 Method。
 
@@ -201,7 +195,7 @@ for n in range(2,100):   #包含2，不包含100
 
 被调用的函数，也可以被理解为子程序（sub-Program），主程序执行到函数调用时，就开始执行实现函数的哪些代码，然后再返回主程序。
 
-```python packages=[""] timeout=8000
+```python height=400 packages=[""] timeout=8000
 #写一个判断指定数字是否是质数的函数
 
 def is_prime(n):
@@ -218,11 +212,12 @@ def is_prime(n):
 for i in range(80, 110):
     if is_prime(i):
         print(i)
+        
 ```
 
 
 
-###  4、Class 与 module
+##  5、Class 与 module
 
 #### (1) Class 
 
@@ -230,7 +225,7 @@ Class 是 Python 面向对象编程的一个重要概念，什么时候需要 Cl
 
 譬如一个图书馆的图书管理系统，要处理成千上万本书的借入借出记录，书的属性有书名、ISBN 号、作者、入库时间等，方法有入库、借出、还书等。
 
-```python packages=[""] timeout=8000
+```python height=500 packages=[""] timeout=8000
 class Book:
     """图书类，包含图书的基本属性"""
     
@@ -286,5 +281,6 @@ main.py内容：
 ```
 from hello import say_hello
 print(say_hello("Jack"))
+
 ```
 

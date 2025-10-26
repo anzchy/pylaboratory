@@ -124,7 +124,9 @@ Parameters:
 > **Tip:** After adding or changing packages in Markdown, run\
 > `bash scripts/download-pyodide.sh` to refresh the offline wheels before `mkdocs serve` or deployment.
 
-## 如何更新 Tutorials
+
+
+## 如何更新 Python Tutorials
 
 ### 1. 更新导航菜单 (TOC)
 
@@ -138,7 +140,7 @@ nav:
   - Tutorials:
       - Hello World: tutorial/01_intro.md
       - Python Framework: tutorial/02_python_framework.md
-      - Snippet Demo: tutorial/02_snippet_demo.md
+      - Snippet Demo: tutorial/03_snippet_demo.md
 ```
 
 每次添加新的 tutorial 文件，都要在 `mkdocs.yml` 的 `nav:` 部分添加对应的条目。
@@ -147,14 +149,9 @@ nav:
 
 创建或编辑 `docs/tutorial/` 下的 `.md` 文件，使用 Python 代码块的元数据语法：
 
-```markdown
-```python height=150 timeout=8000 packages=[]
-print(f"2 + 3 = {2 + 3}")
-print(f"5 - 4 = {5 - 4}")
-print(f"2 * 3 = {2 * 3}")
-print(f"8 / 2 = {8 / 2}")
-```
-```
+````python height=150 timeout=8000 packages=[]`
+
+
 
 ### 3. 代码块元数据参数说明
 
@@ -170,24 +167,31 @@ print(f"8 / 2 = {8 / 2}")
 ### 4. 使用示例
 
 #### 小代码块（150px 高）
-```markdown
+
+````
 ```python height=150 packages=[]
 print("Hello World")
 ```
-```
+````
+
+
 
 #### 中等代码块（300px，加载 numpy）
-```markdown
+````markdown
 ```python height=300 timeout=10000 packages=["numpy"]
 import numpy as np
 arr = np.array([1, 2, 3, 4, 5])
 print(f"Array: {arr}")
 print(f"Sum: {np.sum(arr)}")
 ```
-```
+
+````
+
 
 #### 大代码块（500px，加载多个包）
-```markdown
+
+````
+
 ```python height=500 timeout=15000 packages=["numpy", "pandas"]
 import numpy as np
 import pandas as pd
@@ -196,7 +200,7 @@ data = {"A": [1, 2, 3], "B": [4, 5, 6]}
 df = pd.DataFrame(data)
 print(df.describe())
 ```
-```
+````
 
 ### 5. 推荐的高度值
 
@@ -207,6 +211,7 @@ print(df.describe())
 | 5-10 行代码 | 300-400px |
 | 10+ 行代码 | 400-600px |
 | 复杂函数/类定义 | 600-800px |
+
 
 ### 6. 代码控制流程
 
@@ -231,17 +236,26 @@ playground-new.tsx 应用 height: ${height}px 样式
 编辑器显示为指定高度
 ```
 
+
+
 ### 7. 高度代码位置
 
-- **Markdown 宏处理器：** `macros/pylab_macros.py` 第 116、175 行
-  ```python
-  height = int(meta.get("height", 320))  # 默认 320px
-  ```
+- **Markdown 宏处理器：** 
+位置：`macros/pylab_macros.py` 第 116、175 行
 
-- **React 组件：** `pylab/src/components/playground-new.tsx`
-  ```typescript
+```python
+  height = int(meta.get("height", 320))  # 默认 320px
+```
+
+- **React 组件：**
+
+  位置： `pylab/src/components/playground-new.tsx`
+
+```typescript
   style={{ height: `${height}px`, borderBottom: '1px solid #e0e0e0' }}
-  ```
+```
+
+
 
 ### 8. 工作流程
 
